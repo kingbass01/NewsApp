@@ -43,6 +43,13 @@ class NewsAdapter(
                 else{
                     holder.author.text = ""
                 }
+                if(current.content != null)
+                {
+                    holder.content.text = current.content
+                }
+                else{
+                    holder.content.text =""
+                }
             }
         }
     }
@@ -55,6 +62,7 @@ class NewsAdapter(
 class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
     val title: TextView = itemView.findViewById(R.id.textView)
     val img : ImageView = itemView.findViewById(R.id.imageView)
-    val author:TextView = itemView.findViewById(R.id.textView2)
-    val btn:ImageButton = itemView.findViewById(R.id.imageButton)
+    val author:TextView = itemView.findViewById(R.id.author)
+    val btn:ImageButton = itemView.findViewById(R.id.share)
+    val content:TextView= itemView.findViewById(R.id.content)
 }
