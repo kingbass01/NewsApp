@@ -56,5 +56,5 @@ class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
     val title: TextView = itemView.findViewById(R.id.textView)
     val img : ImageView = itemView.findViewById(R.id.imageView)
     val author:TextView = itemView.findViewById(R.id.textView2)
-    val btn = itemView.findViewById<ImageButton>(R.id.imageButton)
+    val btn:ImageButton = itemView.findViewById(R.id.imageButton)
 }

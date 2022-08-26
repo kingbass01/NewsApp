@@ -27,7 +27,7 @@ class APIService {
 
     interface APIService {
         @GET("top-headlines")
-        fun getTopHeadlines(@Query("country") country:String,@Query("apiKey") key:String,@Query("q") search:String) : Call<APIResponse>
+        fun getTopHeadlines(@Query("country") country:String,@Query("q") search:String,@Query("apiKey") key:String) : Call<APIResponse>
     }
 
     object APIObject{

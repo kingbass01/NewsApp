@@ -1,8 +1,11 @@
 package com.ruiaaryan.newsapp
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
@@ -18,12 +21,28 @@ class MainActivity : AppCompatActivity() {
     private var items = mutableListOf<Article?>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        fetchData()
+        fetchData("")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val search = findViewById<EditText>(R.id.search)
+        search.setOnEditorActionListener{
+                _, actionId, _ ->
+            if(actionId == EditorInfo.IME_ACTION_DONE) {
+                if(search.text.toString() != "") {
+                    fetchData(search.text.toString())
+                }
+                else {
+                    search.hint = "Enter search query"
+                    search.setHintTextColor(Color.RED)
+                }
+            }
+            false
+        }
     }
 
     private fun insertData(it: MutableList<Article?>) {
+        if(it.size != 0) {
         items = it
         val adapter = NewsAdapter(items, this)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
@@ -37,13 +56,17 @@ class MainActivity : AppCompatActivity() {
         )
         println("Loaded in Recycler View")
     }
+        else {
+            Toast.makeText(this@MainActivity, "Sorry!! No Results", Toast.LENGTH_LONG).show()
+        }
+    }
 
-    private fun fetchData() {
+    private fun fetchData(q:String) {
         val apikey = "dc9e197b010149908560f8bbf94f2746"
-        val q = ""
         q.replace(' ', '+', false)
         val country = "in"
-        val client = APIService.APIObject.retrofitService.getTopHeadlines(country, apikey, q)
+        println(q)
+        val client = APIService.APIObject.retrofitService.getTopHeadlines(country,q,apikey)
         client.enqueue(object : Callback<APIResponse> {
             override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
                 if (response.isSuccessful) {
